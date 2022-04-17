@@ -44,6 +44,7 @@ header ion-icon{
     align-items: center;
     flex-wrap: wrap;
     margin-bottom:4px;
+
 }
 .mensagem.normais{
     background-color:#FFFFFF
@@ -52,6 +53,10 @@ header ion-icon{
     text-align: left;
     font-size:14px;
     line-height: 20px
+}
+.mensagem span{
+    text-align:left;
+    color:#AAAAAA;
 }
 .mensagem.reservada{
     background-color:#FFDEDE;
