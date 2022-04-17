@@ -45,7 +45,7 @@ header ion-icon{
     flex-wrap: wrap;
     margin-bottom:4px;
 }
-.mensagem.todos{
+.mensagem.normais{
     background-color:#FFFFFF
 }
 .mensagem h3{
@@ -53,10 +53,10 @@ header ion-icon{
     font-size:14px;
     line-height: 20px
 }
-.mensagem.privada{
+.mensagem.reservada{
     background-color:#FFDEDE;
 }
-.mensagem.atualizacao-da-sala{
+.mensagem.status{
     background-color:#DCDCDC
 }
 strong{
