@@ -6,11 +6,83 @@ body{
     height:100%;
     width: 100%;
     background-color: #F3F3F3;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     font-family: 'Roboto', sans-serif;
     min-height: 600px;
+}
+.tela-escura{
+   width: 30%;
+   display: none;
+   background-color: none;
+   min-height: 600px;
+   z-index: 1;
+}
+.tela-de-participantes{
+    position:fixed;
+    top:0;
+    right:0;
+    width: 70%;
+    height: 100vh;
+    background-color: #FFFFFF;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+    transition: width 1000ms linear;
+    overflow: scroll;
+}
+.escondido{
+    width:0;
+    z-index: 0;
+    display:none;
+}
+.tela-chat{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:none;
+    min-height: 600px;
+    z-index: 0;
+    /*transition: all 1000ms linear;*/
+}
+.cabecalho,.visibilidade{
+    display:flex;
+
+    justify-content: center;
+    align-items: center;
+    width:100%;
+    height: 84px;
+    margin-bottom: 12px;
+}
+.cabecalho>h2,.visibilidade>h2{
+    inline-size: 60%;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 19px;
+}
+.participantes{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.participante,.opcao-visibilidade{
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+    padding: 0 10%;
+    font-size: 16px;
+}
+
+.participante>div,.opcao-visibilidade>div{
+    display:flex;
+    width: 100%;
+}
+.participante>ion-icon,.opcao-visibilidade>ion-icon{
+    font-size: 20px;
+    color: #28BB25;
 }
 header{
     display: flex;
@@ -27,7 +99,6 @@ header{
 header img{
     height: 53px;
     width: 75px;
-    
 }
 header ion-icon{
     font-size: 46px;
@@ -44,6 +115,7 @@ header ion-icon{
     align-items: center;
     flex-wrap: wrap;
     margin-bottom:4px;
+    word-wrap: break-word;
 
 }
 .mensagem.normais{
@@ -52,7 +124,8 @@ header ion-icon{
 .mensagem h3{
     text-align: left;
     font-size:14px;
-    line-height: 20px
+    line-height: 20px;
+    width:100%;
 }
 .mensagem span{
     text-align:left;
@@ -89,10 +162,23 @@ footer input{
     height: auto;
     outline: none;
 }
-
 footer ion-icon{
     font-size:26px;
 }
 ion-icon:hover{
     cursor:pointer;
+    filter: brightness(115%);
+}
+.habilitado{
+    display:flex;
+    background-color: rgba(0,0,0,0.6);
+    position:fixed;
+    top:0;
+    left:0;
+}
+.selecionado{
+    display: flex;
+}
+.deselecionado{
+    display:none;
 }
