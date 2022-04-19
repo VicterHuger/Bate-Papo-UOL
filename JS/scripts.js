@@ -3,8 +3,13 @@ let nomeUsuario=prompt("Qual seu nome?");
 const objetoUsuario={
     name:nomeUsuario
 }
-let nomeUsuarios;
+const TEMPO_3S=3*1000;
+const TEMPO_5S=5*1000;
+const TEMPO_10S=10*1000;
+let nomeUsuarios=[];
 let idInterval;
+let usuarioSelecionado="Todos";
+let visibilidadeSelecionada="Público";
 let elementoMensagens=document.querySelector(".container");
 enviarSolicitacaoNome();
 function enviarSolicitacaoNome(){
@@ -27,9 +32,11 @@ function tratarErroNome(erro){
 function tratarSucessoNome(resposta){
     let statusCode=resposta.status;
     if(statusCode===200){
-        setInterval(manterConexao,5000);
+        setInterval(manterConexao,TEMPO_5S);
         buscarMensagens();
-        idInterval=setInterval(buscarMensagens,3000);
+        idInterval=setInterval(buscarMensagens,TEMPO_3S);
+        carregarUsuarios();
+        setInterval(carregarUsuarios,TEMPO_10S);
         
     }
 }
@@ -123,24 +130,23 @@ function tratarErroEnviarMensagem(erro){
 //BONUS
 function carregarUsuarios(){
     const promise=axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
-    promise.then(abrirDestinatario);
+    promise.then(renderizarUsuarios);
     promise.catch(TratarErroabrirDestinatario);
 }
-
-function abrirDestinatario(resposta){
-    document.querySelector(".tela-de-participantes").classList.remove("escondido");
-    const elemento=document.querySelector(".tela-escura");
-    elemento.classList.add("habilitado");
-    elemento.addEventListener("click",desabilitarTelaEscura);
+function renderizarUsuarios(resposta){
     const qntUsuarios=resposta.data.length;
+    if(nomeUsuarios.length===qntUsuarios){
+        return true;
+    }
     nomeUsuarios=resposta.data;
+
     document.querySelector(".participantes").innerHTML=`
     <div class="participante">
-        <div>
+        <div onclick="selecionarUsuario(this)">
             <ion-icon name="people"></ion-icon>
             <h2>Todos</h2>
         </div>
-        <ion-icon name="checkmark"></ion-icon>
+        <ion-icon class="selecionado" name="checkmark"></ion-icon>
     </div>`;
     for (let i=0;i<qntUsuarios;i++){
         document.querySelector(".participantes").innerHTML+=`
@@ -153,15 +159,41 @@ function abrirDestinatario(resposta){
         </div>`;
     }
 }
-function selecionarUsuario(elemento){
-    if(document.querySelectorAll(".selecionado").length<=1){
-        elemento.querySelector("ion-icon").classList.add("selecionado");
-        elemento.querySelector("ion-icon").classList.remove("deselecionado");
-    }else if(elemento.querySelector("ion-icon").classList.contains("selecionado")){
-        elemento.querySelector("ion-icon").classList.remove("selecionado");
-        elemento.querySelector("ion-icon").classList.add("deselecionado");
-    }
 
+function abrirDestinatario(){
+    document.querySelector(".tela-de-participantes").classList.remove("escondido");
+    const elemento=document.querySelector(".tela-escura");
+    elemento.classList.add("habilitado");
+    elemento.addEventListener("click",desabilitarTelaEscura);
+    alterarFrase();
+}
+function selecionarUsuario(elemento){
+    let elementoSelecionado=document.querySelector(".participantes .selecionado");
+    let checkDoElementoClicado=elemento.parentNode.querySelector("div+ion-icon");
+    if(checkDoElementoClicado!==elementoSelecionado){
+        checkDoElementoClicado.classList.add("selecionado");
+        checkDoElementoClicado.classList.remove("deselecionado");
+        elementoSelecionado.classList.remove("selecionado");
+        elementoSelecionado.classList.add("deselecionado");
+    }
+     usuarioSelecionado=elemento.querySelector("h2").innerHTML;
+    alterarFrase();
+    
+}
+function selecionarVisibilidade(elemento){
+    let elementoSelecionado=document.querySelector(".opcoes-visibilidade .selecionado");
+    let checkDoElementoClicado=elemento.parentNode.querySelector("div+ion-icon");
+    if(checkDoElementoClicado!==elementoSelecionado){
+        checkDoElementoClicado.classList.add("selecionado");
+        checkDoElementoClicado.classList.remove("deselecionado");
+        elementoSelecionado.classList.remove("selecionado");
+        elementoSelecionado.classList.add("deselecionado");
+    }
+    visibilidadeSelecionada=elemento.querySelector("h2").innerHTML;
+    alterarFrase();
+}
+function alterarFrase(){
+    document.querySelector("footer h4").innerHTML=`Escrevendo para ${usuarioSelecionado} (${visibilidadeSelecionada.toLowerCase()})`
 }
 function TratarErroabrirDestinatario(erro){
     if(erro.response.status!==200){

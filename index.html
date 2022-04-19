@@ -16,14 +16,17 @@
     <div class="tela-chat" >
         <header>
             <a href="https://batepapo.uol.com.br/"><img src="/imagens/logo 1.png" alt="Figura de uma mensagem contendo o símbolo da UOL a esquerda, uma esfera com um símbolo de uma mediatriz centralizada, no qual as cores centrais são vermelhas e as perféricas são amarelas; e a direita está escrito BATE PAPO UOL"></a>
-            <ion-icon name="people" onclick="carregarUsuarios()"></ion-icon>
+            <ion-icon name="people" onclick="abrirDestinatario()"></ion-icon>
         </header>
         <div class="container">
         </div>
         <footer>
-            <input type="text" placeholder="Escreva aqui..." autocorrect="on" autocomplete="on">
-            <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
-            <!-- <ion-icon name="paper-plane-outline"></ion-icon> -->
+            <div>
+                <input type="text" placeholder="Escreva aqui..." autocorrect="on" autocomplete="on">
+                <ion-icon name="paper-plane-outline" onclick="enviarMensagem()"></ion-icon>
+            </div>
+            
+            <h4></h4>
         </footer>
     </div>    
     
@@ -36,19 +39,21 @@
         <div class="visibilidade">
             <h2>Escolha a visibilidade</h2>
         </div>
-        <div class="opcao-visibilidade">
-            <div>
-                <ion-icon name="lock-open-outline"></ion-icon>
-                <h2>Público</h2>
+        <div class="opcoes-visibilidade">
+            <div class="opcao-visibilidade">
+                <div onclick="selecionarVisibilidade(this)">
+                    <ion-icon name="lock-open-outline"></ion-icon>
+                    <h2>Público</h2>
+                </div>
+                <ion-icon class="selecionado" name="checkmark"></ion-icon>
             </div>
-            <ion-icon name="checkmark"></ion-icon>
-        </div>
-        <div class="opcao-visibilidade">
-            <div>
-               <ion-icon name="lock-closed-outline"></ion-icon>
-                <h2>Reservadamente</h2>
+            <div class="opcao-visibilidade">
+                <div onclick="selecionarVisibilidade(this)">
+                   <ion-icon name="lock-closed-outline"></ion-icon>
+                    <h2>Reservadamente</h2>
+                </div>
+                <ion-icon class="deselecionado"name="checkmark"></ion-icon>        
             </div>
-            <ion-icon class="deselecionado"name="checkmark"></ion-icon>        
         </div>
     </div> 
     

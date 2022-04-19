@@ -8,13 +8,13 @@ body{
     background-color: #F3F3F3;
     align-items: center;
     font-family: 'Roboto', sans-serif;
-    min-height: 600px;
+    min-height: 100vh;
 }
 .tela-escura{
    width: 30%;
    display: none;
    background-color: none;
-   min-height: 600px;
+   min-height: 100vh;
    z-index: 1;
 }
 .tela-de-participantes{
@@ -63,7 +63,7 @@ body{
     text-align: center;
     line-height: 19px;
 }
-.participantes{
+.participantes,.opcoes-visibilidade{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -74,15 +74,19 @@ body{
     justify-content: space-between;
     padding: 0 10%;
     font-size: 16px;
+    margin-bottom: 5px;
 }
 
 .participante>div,.opcao-visibilidade>div{
     display:flex;
     width: 100%;
+    margin-bottom: 5px;
 }
 .participante>ion-icon,.opcao-visibilidade>ion-icon{
-    font-size: 20px;
+    font-size: 16px;
     color: #28BB25;
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 header{
     display: flex;
@@ -145,12 +149,17 @@ footer{
     bottom:0;
     left:0;
     display:flex;
+    flex-direction: column;
     padding: 27px 6%;
     width: 100%;
     height: 80px;
     align-items: center;
-    justify-content: space-between;
     background-color: #FFFFFF;
+}
+footer>div{
+    display:flex;
+    width: 100%;
+    justify-content: space-between;
 }
 footer input{
     display: flex;
@@ -161,13 +170,26 @@ footer input{
     width:95%;
     height: auto;
     outline: none;
+    justify-content: left;
+}
+input::placeholder{
+    font-style: italic;
+    font-size: 18px;
+    color:rgb(0,0,0);
+    font-weight: 400;
 }
 footer ion-icon{
     font-size:26px;
 }
-ion-icon:hover{
+ion-icon:hover,.participante:hover,.opcao-visibilidade:hover{
     cursor:pointer;
     filter: brightness(115%);
+}
+footer h4{
+    text-align: left;
+    font-size: 14px;
+    font-weight: 300;
+    width: 100%;
 }
 .habilitado{
     display:flex;
