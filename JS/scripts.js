@@ -11,6 +11,17 @@ let idInterval;
 let usuarioSelecionado="Todos";
 let visibilidadeSelecionada="Público";
 let elementoMensagens=document.querySelector(".container");
+//habilitando o envio com enter
+document.querySelector(".tela-de-entrada input").addEventListener('keyup',event=>{
+    if(event.keyCode===13){
+        document.querySelector("button").click();
+    }
+})
+document.querySelector("footer input").addEventListener('keyup',event=>{
+    if(event.keyCode===13){
+        document.querySelector("footer>div>ion-icon").click();
+    }
+})
 
 function entrarNome(){
     nomeUsuario=document.querySelector(".tela-de-entrada input").value;
