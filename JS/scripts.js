@@ -1,5 +1,5 @@
 //GLOBAL
-let nomeUsuario=prompt("Qual seu nome?");
+ let nomeUsuario="";
 const objetoUsuario={
     name:nomeUsuario
 }
@@ -11,25 +11,31 @@ let idInterval;
 let usuarioSelecionado="Todos";
 let visibilidadeSelecionada="Público";
 let elementoMensagens=document.querySelector(".container");
-enviarSolicitacaoNome();
+
+function entrarNome(){
+    nomeUsuario=document.querySelector(".tela-de-entrada input").value;
+    console.log(nomeUsuario);
+    objetoUsuario.name=nomeUsuario;
+    document.querySelector(".tela-de-entrada input").value="";
+    enviarSolicitacaoNome();
+    document.querySelector(".tela-de-entrada div").classList.add("deselecionado");
+    document.querySelector(".tela-de-entrada div").classList.remove("selecionado");
+    document.querySelector(".tela-de-entrada>div:last-child").classList.remove("deselecionado");
+    document.querySelector(".tela-de-entrada>div:last-child").classList.add("selecionado");
+    document.querySelector(".tela-de-entrada>div:last-child>div>img").classList.remove("deselecionado");
+    document.querySelector(".tela-de-entrada>div:last-child>div>img").classList.add("selecionado");
+}
 function enviarSolicitacaoNome(){
     const promise=axios.post("https://mock-api.driven.com.br/api/v6/uol/participants",objetoUsuario);
     promise.then(tratarSucessoNome);
     promise.catch(tratarErroNome);
 }
 function tratarErroNome(erro){
-    let statusCode = erro.response.status;
-    if(statusCode!==200 && statusCode===400){
-        nomeUsuario=prompt("Nome já está sendo usado. Digite outro nome");
-        objetoUsuario.name=nomeUsuario;
-        enviarSolicitacaoNome();
-    }else{
-        alert(`Erro ao enviar status de ${nomeUsuario} ao servidor: ${statusCode}`);
-        nomeUsuario=prompt("Qual seu nome?");
-        enviarSolicitacaoNome();
-    }
+    alert(`Erro - Usuário indisponível`);
+    window.location.reload();
 }
 function tratarSucessoNome(resposta){
+    document.querySelector(".tela-de-entrada").classList.add("deselecionado");
     let statusCode=resposta.status;
     if(statusCode===200){
         setInterval(manterConexao,TEMPO_5S);
@@ -69,7 +75,7 @@ function tratarSucessoBuscarMensagem(resposta){
             elementoMensagem=document.getElementById(`${i}`)
             elementoMensagem.scrollIntoView();
         }
-        if(resposta.data[i].type==="message" && resposta.data[i].to==="Todos"){
+        if((resposta.data[i].type==="message")){
             elementoMensagens.innerHTML+=
             `<div id="${i}" class='mensagem normais'>
                 <h3><span>(${resposta.data[i].time})</span> <strong>${resposta.data[i].from}</strong> para ${resposta.data[i].to}: ${resposta.data[i].text}</h3>
@@ -95,6 +101,9 @@ function verificarMensagemPrivada(dados,nome){
     if((destinatario===nome || origem===nome) && tipoMensagem==="private_message"){
         return true
     }
+    if(tipoMensagem==="private_message" && destinatario==="Todos"){
+        return true;
+    }
     return false;
 }
 function tratarErroBuscarMensagem(erro){
@@ -102,17 +111,22 @@ function tratarErroBuscarMensagem(erro){
 }
 
 function enviarMensagem(){
+    if(visibilidadeSelecionada==="Público"){
+        tipoMensagem="message";
+    }else if(visibilidadeSelecionada==="Reservadamente"){
+        tipoMensagem="private_message";
+    }
     const objetoMensagem={
         from:nomeUsuario,
-        to:"Todos", 
-        text: document.querySelector("input").value,
-        type: "message" // ou "private_message" para o bônus
+        to:usuarioSelecionado, 
+        text: document.querySelector("footer input").value,
+        type: tipoMensagem // ou "private_message" para o bônus
     }
     clearInterval(idInterval);
     const promise=axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",objetoMensagem);
     promise.then(tratarSucessoEnviarMensagem);
     promise.catch(tratarErroEnviarMensagem);
-    document.querySelector("input").value="";
+    document.querySelector("footer input").value="";
 }
 function tratarSucessoEnviarMensagem(resposta){
     //console.log(`ESTA É A RESPOSTA DO SERVER : ${resposta.status}`)
