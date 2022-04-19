@@ -133,7 +133,7 @@ function enviarMensagem(){
         text: document.querySelector("footer input").value,
         type: tipoMensagem // ou "private_message" para o bônus
     }
-    clearInterval(idInterval);
+    //clearInterval(idInterval);
     const promise=axios.post("https://mock-api.driven.com.br/api/v6/uol/messages",objetoMensagem);
     promise.then(tratarSucessoEnviarMensagem);
     promise.catch(tratarErroEnviarMensagem);
@@ -141,9 +141,9 @@ function enviarMensagem(){
 }
 function tratarSucessoEnviarMensagem(resposta){
     //console.log(`ESTA É A RESPOSTA DO SERVER : ${resposta.status}`)
-    if(resposta.status===200){
-        idInterval=setInterval(buscarMensagens,3000);
-    }
+    //if(resposta.status===200){
+    //    idInterval=setInterval(buscarMensagens,3000);
+    //}
 }
 function tratarErroEnviarMensagem(erro){
     if(erro.response.status!==200){
